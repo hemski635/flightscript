@@ -62,17 +62,15 @@ def getBMPAltitude():
 #On ground
 
 while True:
+    global groundAltitude
     currentAltitude1 = getBMPAltitude()
     time.sleep(0.5)
     currentAltitude2 = getBMPAltitude()
     if (currentAltitude2 - currentAltitude1) > 3:
         writeLog("Launch!", LaunchLog)
         break
-    #REMEMBER TO REMOVE THIS OUT
-    elif input('launch yet?') == 'y':
-        writeLog("Launch!", LaunchLog)
-        break
     else:
+        groundAltitude = getGroundAltitude()
         continue
 
 
