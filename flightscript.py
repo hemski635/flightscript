@@ -81,7 +81,7 @@ while True:
     currentAltitude1 = getBMPAltitude()
     time.sleep(0.3)
     currentAltitude2 = getBMPAltitude()
-    if not(currentAltitude2 - currentAltitude1) > 1:
+    if not((currentAltitude2 - currentAltitude1) > 1):
         writing = "Apogee at " + str(currentAltitude2)
         writeLog(writing, LaunchLog)
         writeLog("Attempting to launch parachute", LaunchLog)
