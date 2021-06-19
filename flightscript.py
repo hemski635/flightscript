@@ -60,17 +60,19 @@ def getBMPAltitude():
 
 
 #On ground
-
+lockParachute()
 while True:
-    global groundAltitude
     currentAltitude1 = getBMPAltitude()
     time.sleep(0.5)
     currentAltitude2 = getBMPAltitude()
     if (currentAltitude2 - currentAltitude1) > 3:
         writeLog("Launch!", LaunchLog)
         break
+    #REMEMBER TO REMOVE THIS OUT
+#    elif input('launch yet?') == 'y':
+#        writeLog("Launch!", LaunchLog)
+#        break
     else:
-        groundAltitude = getGroundAltitude()
         continue
 
 
@@ -79,7 +81,7 @@ while True:
     currentAltitude1 = getBMPAltitude()
     time.sleep(0.3)
     currentAltitude2 = getBMPAltitude()
-    if not((currentAltitude2 - currentAltitude1) > 1):
+    if not(currentAltitude2 - currentAltitude1) > 1:
         writing = "Apogee at " + str(currentAltitude2)
         writeLog(writing, LaunchLog)
         writeLog("Attempting to launch parachute", LaunchLog)
