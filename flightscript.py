@@ -1,5 +1,6 @@
 #!/bin/python3
 
+
 import Adafruit_BMP.BMP085 as BMP085
 from gpiozero import Servo
 import time
@@ -10,7 +11,6 @@ servo = Servo(17)
 sensor = BMP085.BMP085()
 averageFromBMP = 5 #Number of iterations for averaging altitude
 BMPLog = 'BMP.log'
-GPSLog = 'GPS.log'
 LaunchLog = 'launch.log'
 
 
@@ -62,11 +62,9 @@ def getBMPAltitude():
 #On ground
 lockParachute()
 while True:
-    currentAltitude1 = getBMPAltitude()
-    time.sleep(0.5)
-    currentAltitude2 = getBMPAltitude()
-    if (currentAltitude2 - currentAltitude1) > 3:
-        writeLog("Launch!", LaunchLog)
+    currentAltitude = getBMPAltitude()
+    if (currentAltitude - groundAltitude) > 5:
+        writeLog("Launched!", LaunchLog)
         break
     #REMEMBER TO REMOVE THIS OUT
 #    elif input('launch yet?') == 'y':
@@ -76,31 +74,33 @@ while True:
         continue
 
 
-#Wait for apogee and parachute
 while True:
-    currentAltitude1 = getBMPAltitude()
-    time.sleep(0.3)
-    currentAltitude2 = getBMPAltitude()
-    if not(currentAltitude2 - currentAltitude1) > 1:
-        writing = "Apogee at " + str(currentAltitude2)
+    currentAltitude = getBMPAltitude()
+    highestAltitude = float(0)
+    writing = "Altitude: " + currentAltitude
+    writeLog(writing, BMPLog)
+    if currentAltitude > highestAltitude:
+        highestAltitude = currentAltitude
+        continue
+    else:
+        writing = "Apogee at " + str(highestAltitude)
         writeLog(writing, LaunchLog)
         writeLog("Attempting to launch parachute", LaunchLog)
         parachuteLaunch()
         break
-    else:
-        continue
 
 
 #Decending
 while True:
-    currentAltitude1 = getBMPAltitude()
-    time.sleep(0.3)
-    currentAltitude2 = getBMPAltitude()    
-    if currentAltitude2 - currentAltitude1 < 1:
+    currentAltitude = getBMPAltitude()
+    writing = "Altitude: " + currentAltitude
+    writeLog(writing, BMPLog)
+    if (groundAltitude + 3) > currentAltitude > (groundAltitude - 3):
         writeLog("Another happy landing!  - Obi-Wan Kenobi, The Revenge of the Sith", LaunchLog)
         break
     else:
         continue
+
 
 timenow = time.strftime("%d%m%Y_%H%M", time.gmtime())
 BMPLogName = 'BMP_' + timenow + '.log'
