@@ -90,40 +90,51 @@ while True:
         break
 
 
-#Decending
+def ifWithin(testarray, tolerance, referenceNumber):
+    okTest = 0
+    for i in testarray:
+        if (i + tolerance) > referenceNumber > (i - tolerance):
+            okTest += 1
+    if okTest == len.testarray:
+        return True
+    else:
+        return False
+
+
+#Decendind
 while True:
     testAltitude1 = getBMPAltitude()
     writing = "Altitude: " + testAltitude1
     time.sleep(1)
     testAltitude2 = getBMPAltitude()
     writing = "Altitude: " + testAltitude2
-    time.sleep(1)
-    testAltitude3 = getBMPAltitude()
-    writing = "Altitude: " + testAltitude3
-    time.sleep(1)
-    testAltitude4 = getBMPAltitude()
-    writing = "Altitude: " + testAltitude4
-    time.sleep(1)
-    testAltitude5 = getBMPAltitude()
-    writing = "Altitude: " + testAltitude5
-    time.sleep(1)
-    currentAltitude = getBMPAltitude()
-    tol = 3
-    okTest = 0
-    tests = [testAltitude1,testAltitude2,testAltitude3,testAltitude4,testAltitude5]
-    for i in tests:
-        if (i + tol) > currentAltitude > (i - tol):
-            okTest += 1
-            continue
-        else:
-            break
-    if okTest == 5:
-        writeLog("Another happy landing!  - Obi-Wan Kenobi, The Revenge of the Sith", LaunchLog)
-        break
-    else:
-        continue
-    
+    testWithin = ifWithin ([testAltitude1], 3, testAltitude2)
+    if testWithin == True:
+        time.sleep(1)
+        testAltitude3 = getBMPAltitude()
+        writing = "Altitude: " + testAltitude3
+        testWithin = ifWithin ([testAltitude1,testAltitude2], 3, testAltitude3)
+        if testWithin == True:
+            time.sleep(1)
+            testAltitude4 = getBMPAltitude()
+            writing = "Altitude: " + testAltitude4
+            testWithin = ifWithin ([testAltitude1,testAltitude2,testAltitude3], 3, testAltitude4)
+            if testWithin == True:
+                time.sleep(1)
+                testAltitude5 = getBMPAltitude()
+                writing = "Altitude: " + testAltitude5
+                testWithin = ifWithin ([testAltitude1,testAltitude2,testAltitude3,testAltitude4], 3, testAltitude5)
+                if testWithin == True:
+                    time.sleep(1)
+                    currentAltitude = getBMPAltitude()
+                    writing = "Altitude: " + currentAltitude
+                    testWithin = ifWithin ([testAltitude1,testAltitude2,testAltitude3,testAltitude4,testAltitude5], 3, currentAltitude)
+                    if testWithin == True:
+                        writeLog("Another happy landing!  - Obi-Wan Kenobi, The Revenge of the Sith", LaunchLog)
+                        break
 
+
+			
 
 timenow = time.strftime("%d%m%Y_%H%M", time.gmtime())
 BMPLogName = 'BMP_' + timenow + '.log'
