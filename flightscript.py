@@ -104,14 +104,20 @@ while True:
     testAltitude4 = getBMPAltitude()
     writing = "Altitude: " + testAltitude4
     time.sleep(1)
+    testAltitude5 = getBMPAltitude()
+    writing = "Altitude: " + testAltitude5
+    time.sleep(1)
     currentAltitude = getBMPAltitude()
     tol = 3
     okTest = 0
-    tests = [testAltitude1,testAltitude2,testAltitude3,testAltitude4]
-    for i in  tests:
+    tests = [testAltitude1,testAltitude2,testAltitude3,testAltitude4,testAltitude5]
+    for i in tests:
         if (i + tol) > currentAltitude > (i - tol):
             okTest += 1
-    if okTest = 4:
+            continue
+        else:
+            break
+    if okTest == 4:
         writeLog("Another happy landing!  - Obi-Wan Kenobi, The Revenge of the Sith", LaunchLog)
         break
     else:
