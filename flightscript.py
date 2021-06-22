@@ -117,7 +117,7 @@ while True:
             continue
         else:
             break
-    if okTest == 4:
+    if okTest == 5:
         writeLog("Another happy landing!  - Obi-Wan Kenobi, The Revenge of the Sith", LaunchLog)
         break
     else:
