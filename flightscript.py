@@ -73,10 +73,10 @@ while True:
     else:
         continue
 
-
+#Wait for apogee/parachute
+highestAltitude = float(0)
 while True:
     currentAltitude = getBMPAltitude()
-    highestAltitude = float(0)
     writing = "Altitude: " + currentAltitude
     writeLog(writing, BMPLog)
     if currentAltitude > highestAltitude:
@@ -92,14 +92,31 @@ while True:
 
 #Decending
 while True:
+    testAltitude1 = getBMPAltitude()
+    writing = "Altitude: " + testAltitude1
+    time.sleep(1)
+    testAltitude2 = getBMPAltitude()
+    writing = "Altitude: " + testAltitude2
+    time.sleep(1)
+    testAltitude3 = getBMPAltitude()
+    writing = "Altitude: " + testAltitude3
+    time.sleep(1)
+    testAltitude4 = getBMPAltitude()
+    writing = "Altitude: " + testAltitude4
+    time.sleep(1)
     currentAltitude = getBMPAltitude()
-    writing = "Altitude: " + currentAltitude
-    writeLog(writing, BMPLog)
-    if (groundAltitude + 3) > currentAltitude > (groundAltitude - 3):
+    tol = 3
+    okTest = 0
+    tests = [testAltitude1,testAltitude2,testAltitude3,testAltitude4]
+    for i in  tests:
+        if (i + tol) > currentAltitude > (i - tol):
+            okTest += 1
+    if okTest = 4:
         writeLog("Another happy landing!  - Obi-Wan Kenobi, The Revenge of the Sith", LaunchLog)
         break
     else:
         continue
+    
 
 
 timenow = time.strftime("%d%m%Y_%H%M", time.gmtime())
