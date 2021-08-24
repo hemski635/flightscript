@@ -21,10 +21,10 @@ def getTime():
 
 
 def writeLog(action, logName):
-	f = open(logName, "a")
+	logfile = open(logName, "a")
 	currentTime = getTime()
-	f.write(currentTime + "," + action + " \n")
-	f.close()
+	logfile.write(currentTime + "," + action + " \n")
+	logfile.close()
 
 
 
