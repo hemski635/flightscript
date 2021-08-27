@@ -57,7 +57,17 @@ def getBMPAltitude():
 	writeLog(BMPAltitude, BMPLog)
 	return total/averageFromBMP-groundAltitude
 
+def ifWithin(testarray, tolerance, referenceNumber):
+    okTest = 0
+    for i in testarray:
+        if (i + tolerance) > referenceNumber > (i - tolerance):
+            okTest += 1
+    if okTest == len(testarray):
+        return True
+    else:
+        return False
 
+#Main loops
 
 #On ground
 lockParachute()
@@ -88,19 +98,6 @@ while True:
         writeLog("Attempting to launch parachute", LaunchLog)
         parachuteLaunch()
         break
-
-
-def ifWithin(testarray, tolerance, referenceNumber):
-    okTest = 0
-    for i in testarray:
-        if (i + tolerance) > referenceNumber > (i - tolerance):
-            okTest += 1
-    if okTest == len(testarray):
-        return True
-    else:
-        return False
-
-
 
 #Decendind
 while True:
@@ -134,13 +131,7 @@ while True:
                         writeLog("Another happy landing!", LaunchLog)
                         break
 
-
-
-
-
-			
-
-timenow = time.strftime("%d%m%Y_%H%M", time.gmtime())
+timenow = time.strftime("%Y%m%d_%H%M", time.gmtime())
 BMPLogName = 'BMP_' + timenow + '.log'
 rename(BMPLog, BMPLogName)
 LaunchLogName = 'launch_' + timenow + '.log'
