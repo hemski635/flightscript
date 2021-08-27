@@ -101,37 +101,41 @@ def ifWithin(testarray, tolerance, referenceNumber):
         return False
 
 
+
 #Decendind
 while True:
     testAltitude1 = getBMPAltitude()
-    writing = "Altitude: " + str(testAltitude1)
     time.sleep(1)
     testAltitude2 = getBMPAltitude()
-    writing = "Altitude: " + str(testAltitude2)
-    testWithin = ifWithin ([testAltitude1], 3, testAltitude2)
+    testArray = []
+    testArray.append(testAltitude1)
+    testWithin = ifWithin (testArray, 3, testAltitude2)
     if testWithin == True:
         time.sleep(1)
         testAltitude3 = getBMPAltitude()
-        writing = "Altitude: " + str(testAltitude3)
-        testWithin = ifWithin ([testAltitude1,testAltitude2], 3, testAltitude3)
+        testArray.append(testAltitude2)
+        testWithin = ifWithin (testArray, 3, testAltitude3)
         if testWithin == True:
             time.sleep(1)
             testAltitude4 = getBMPAltitude()
-            writing = "Altitude: " + str(testAltitude4)
-            testWithin = ifWithin ([testAltitude1,testAltitude2,testAltitude3], 3, testAltitude4)
+            testArray.append(testAltitude3)
+            testWithin = ifWithin (testArray, 3, testAltitude4)
             if testWithin == True:
                 time.sleep(1)
                 testAltitude5 = getBMPAltitude()
-                writing = "Altitude: " + str(testAltitude5)
-                testWithin = ifWithin ([testAltitude1,testAltitude2,testAltitude3,testAltitude4], 3, testAltitude5)
+                testArray.append(testAltitude4)
+                testWithin = ifWithin (testArray, 3, testAltitude5)
                 if testWithin == True:
                     time.sleep(1)
                     currentAltitude = getBMPAltitude()
-                    writing = "Altitude: " + str(currentAltitude)
-                    testWithin = ifWithin ([testAltitude1,testAltitude2,testAltitude3,testAltitude4,testAltitude5], 3, currentAltitude)
+                    testArray.append(testAltitude5)
+                    testWithin = ifWithin (testArray, 3, currentAltitude)
                     if testWithin == True:
                         writeLog("Another happy landing!", LaunchLog)
                         break
+
+
+
 
 
 			
