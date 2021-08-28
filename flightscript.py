@@ -43,7 +43,6 @@ def getGroundAltitude():
 	for i in range(1, averageFromBMP):
 		i = sensor.read_altitude()
 		total = total + i
-	BMPAltitude = "BMP Altitude," + str(total/averageFromBMP)
 	return total/averageFromBMP
 
 groundAltitude = getGroundAltitude()
@@ -67,7 +66,21 @@ def ifWithin(testarray, tolerance, referenceNumber):
     else:
         return False
 
-#Main loops
+def ifBackOnGround(tolerance, numberCount):
+    testArray = []
+    testAltitude = getBMPAltitude()
+    time.sleep(1)
+    testArray.append(testAltitude)
+    while True:
+        testAltitude = getBMPAltitude()
+        test = ifWithin(testArray, tolerance, testAltitude)
+        if test == True:
+            testArray.append(testAltitude)
+            if len(testArray) >= numberCount:
+                break
+        time.sleep(1)
+    return True
+
 
 #On ground
 lockParachute()
@@ -87,49 +100,23 @@ while True:
 highestAltitude = float(0)
 while True:
     currentAltitude = getBMPAltitude()
-    writing = "Altitude: " + str(currentAltitude)
-    writeLog(writing, BMPLog)
     if currentAltitude > highestAltitude:
         highestAltitude = currentAltitude
         continue
     else:
         writing = "Apogee at " + str(highestAltitude)
         writeLog(writing, LaunchLog)
-        writeLog("Attempting to launch parachute", LaunchLog)
+        writing = "Attempting to launch parachute"
+        writeLog(writing, LaunchLog)
         parachuteLaunch()
         break
 
+
 #Decendind
-while True:
-    testAltitude1 = getBMPAltitude()
-    time.sleep(1)
-    testAltitude2 = getBMPAltitude()
-    testArray = []
-    testArray.append(testAltitude1)
-    testWithin = ifWithin (testArray, 3, testAltitude2)
-    if testWithin == True:
-        time.sleep(1)
-        testAltitude3 = getBMPAltitude()
-        testArray.append(testAltitude2)
-        testWithin = ifWithin (testArray, 3, testAltitude3)
-        if testWithin == True:
-            time.sleep(1)
-            testAltitude4 = getBMPAltitude()
-            testArray.append(testAltitude3)
-            testWithin = ifWithin (testArray, 3, testAltitude4)
-            if testWithin == True:
-                time.sleep(1)
-                testAltitude5 = getBMPAltitude()
-                testArray.append(testAltitude4)
-                testWithin = ifWithin (testArray, 3, testAltitude5)
-                if testWithin == True:
-                    time.sleep(1)
-                    currentAltitude = getBMPAltitude()
-                    testArray.append(testAltitude5)
-                    testWithin = ifWithin (testArray, 3, currentAltitude)
-                    if testWithin == True:
-                        writeLog("Another happy landing!", LaunchLog)
-                        break
+if (ifBackOnGround(3, 5)):
+    writing = "Landing detected, exiting"
+    writeLog(writing, LaunchLog)
+
 
 timenow = time.strftime("%Y%m%d_%H%M", time.gmtime())
 BMPLogName = 'BMP_' + timenow + '.log'
