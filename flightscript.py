@@ -94,6 +94,9 @@ def ifBackOnGround(tolerance, numberCount):
             testArray.append(testAltitude)
             if len(testArray) >= numberCount:
                 break
+        else:
+            testArray = []
+            testAltitude = getBMPAltitude()
         time.sleep(1)
     return True
 
