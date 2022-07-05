@@ -68,8 +68,8 @@ def getBMPAltitude():
 	for i in range(1, averageFromBMP):
 		i = sensor.read_altitude()
 		total = total + i
-	BMPAltitude = "BMP Altitude," + str(total/averageFromBMP-groundAltitude)
-	writeLog(BMPAltitude, BMPLog)
+	BMPAltitude = "BMP Altitude " + str(total/averageFromBMP-groundAltitude)
+	writeLog(BMPAltitude, LaunchLog)
 	return total/averageFromBMP-groundAltitude
 
 def ifWithin(testarray, tolerance, referenceNumber):
