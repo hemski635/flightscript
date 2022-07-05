@@ -136,7 +136,7 @@ if (ifBackOnGround(3, 5)):
 
 
 timenow = time.strftime("%Y%m%d_%H%M", time.gmtime())
-BMPLogName = 'logs/BMP_' + timenow + '.log'
-rename(BMPLog, BMPLogName)
+#BMPLogName = 'logs/BMP_' + timenow + '.log'
+#rename(BMPLog, BMPLogName)
 LaunchLogName = 'logs/launch_' + timenow + '.log'
 rename(LaunchLog, LaunchLogName)
