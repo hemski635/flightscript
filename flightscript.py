@@ -1,6 +1,22 @@
 #!/bin/python3
 
 
+
+
+
+
+#
+#
+#
+#
+# REMEMBER TO COMMENT OUT ELIF STATEMENT ON ROW 108 BEFORE REAL TESTS
+#
+#
+#
+#
+
+
+
 import Adafruit_BMP.BMP085 as BMP085
 from gpiozero import Servo
 import time
@@ -83,10 +99,11 @@ def ifBackOnGround(tolerance, numberCount):
 
 
 #On ground
+launchAltitude = float(0)
 lockParachute()
 while True:
     currentAltitude = getBMPAltitude()
-    if (currentAltitude - groundAltitude) > 5:
+    if (currentAltitude - launchAltitude) > 5:
         writeLog("Launched!", LaunchLog)
         break
     #REMEMBER TO REMOVE THIS OUT
@@ -112,7 +129,7 @@ while True:
         break
 
 
-#Decendind
+#Decending
 if (ifBackOnGround(3, 5)):
     writing = "Landing detected, exiting"
     writeLog(writing, LaunchLog)
