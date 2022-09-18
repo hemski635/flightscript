@@ -10,7 +10,7 @@
 #
 #
 # REMEMBER TO COMMENT OUT ELIF STATEMENT ON ROW 108 BEFORE REAL TESTS
-#
+# BMPLog rename currently commented out 
 #
 #
 #
@@ -21,6 +21,7 @@ import Adafruit_BMP.BMP085 as BMP085
 from gpiozero import Servo
 import time
 from os import rename
+
 
 #define variables and stuff
 servo = Servo(17)
@@ -120,7 +121,7 @@ while True:
 highestAltitude = float(0)
 while True:
     currentAltitude = getBMPAltitude()
-    if currentAltitude > highestAltitude:
+    if (currentAltitude - highestAltitude) >= 1:
         highestAltitude = currentAltitude
         continue
     else:
